@@ -2,6 +2,10 @@ import unittest
 import pytest
 import math
 
+# Fix pytest reporting: ModuleNotFoundError: No module named 'continued_fractions'
+import sys,os
+sys.path.append(os.path.join(os.path.dirname(__file__),os.pardir,"."))
+
 from continued_fractions import *
 
 
