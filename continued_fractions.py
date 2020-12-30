@@ -17,6 +17,7 @@ def continued_fraction_from_real(real, precision):
     denominator = 10 ** precision
     return compute_continued_fraction(real * denominator, denominator)
 
+
 def restore(expansion):
     return __restore(expansion, 0)
 

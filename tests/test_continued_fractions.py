@@ -1,14 +1,12 @@
 import math
-# Fix pytest reporting: ModuleNotFoundError: No module named 'continued_fractions'
 import os
 import sys
 import unittest
-
 import pytest
-
-sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir, "."))
-
 from continued_fractions import *
+
+# Fix pytest reporting: ModuleNotFoundError: No module named 'continued_fractions'
+sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir, "."))
 
 
 class ContinuedFractionsTestCase(unittest.TestCase):
