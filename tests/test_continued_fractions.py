@@ -1,10 +1,12 @@
-import unittest
-import pytest
 import math
-
 # Fix pytest reporting: ModuleNotFoundError: No module named 'continued_fractions'
-import sys,os
-sys.path.append(os.path.join(os.path.dirname(__file__),os.pardir,"."))
+import os
+import sys
+import unittest
+
+import pytest
+
+sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir, "."))
 
 from continued_fractions import *
 
@@ -45,17 +47,25 @@ class ContinuedFractionsTestCase(unittest.TestCase):
         l2 = compute_continued_fraction(9, 6)
         self.assertEqual([1, 2], l2)
 
-
     def test_continued_fraction_from_real(self):
-        l1 = continued_fraction_from_real(2**(1/2),10)
-        print(l1)
-        l2 = continued_fraction_from_real(7 - 3 ** (1 / 2), 10)
-        print(l2)
-        l3 = continued_fraction_from_real(math.pi, 10)
-        print(l3)
-        print(continued_fraction_from_real(3 ** (1 / 2), 10))
+        real = math.sqrt(2)
+        result = self._verify_precision(real, 15)
+        self.assertEqual([1] + [2] * 20, result[:21])
+        real = 7 - 3 ** (1 / 2)
+        result = self._verify_precision(real, 15)
+        self.assertEqual([5, 3] + [1, 2] * 10, result[:22])
+        print(math.pi)
+        result = self._verify_precision(math.pi, 15)
+        expected = [3, 7, 15, 1, 292, 1, 1, 1, 2, 1, 3, 1, 14, 2, 1, 1]
+        self.assertEqual(expected[:13], result[:13])
+
+    def _verify_precision(self, real, precision):
+        result = continued_fraction_from_real(real, precision)
+        restored = restore(result)
+        self.assertAlmostEqual(real, restored, precision)
+        return result
 
     def test_restore(self):
         self.assertEqual(52 / 9, restore([5, 1, 3, 2]))
         self.assertEqual(13 / 8, restore([1, 1, 1, 1, 2]))
-        self.assertEqual(0.5, restore([0,2]))
+        self.assertEqual(0.5, restore([0, 2]))
